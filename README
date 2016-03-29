@@ -1,0 +1,32 @@
+# pizarra (Alpha)
+Spanish Lessons from the whiteboard - Alpha Edition
+
+## Intro
+
+This application is used to showcase the Play Framework along with these other libraries:
+* [Scala](http://scala-lang.org/)
+* [WebJars](http://www.webjars.org)
+* [Bootstrap](http://www.bootstrap.com)
+* [Slick](http://www.slick.typesafe.com)
+
+## Installation
+
+This application uses Play 2.5
+
+## Running
+
+### Dev Mode
+
+* Run: `activator ~run`
+* Go to [localhost:9000](http://localhost:9000)
+
+### Prod Mode
+
+* Run `activator testProd`
+
+Deployment:
+
+* Produce executable via `activator clean dist`
+* Extract `unzip target/universal/pizarra-alpha-1.0.0.zip`
+* Run `pizarra-alpha-1.0.0/bin/pizarra-alpha -Dhttp.port=9000 -Dconfig.resource=prod.conf`
+

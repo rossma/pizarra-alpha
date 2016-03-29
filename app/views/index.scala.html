@@ -1,0 +1,41 @@
+@*
+ * This template takes a single argument, a String containing a
+ * message to display.
+ *@
+@(webJarAssets: WebJarAssets, cats: Seq[Cat], phrases: Seq[Phrase])
+
+@*
+ * Call the the `main` template with two arguments. The first
+ * argument is a `String` with the title of the page, the second
+ * argument is an `Html` object containing the body of the page.
+ *@
+@main(webJarAssets) {
+  <h1>¡Buenos días!</h1>
+  <div class="alert alert-info">
+   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+   <p>
+    This application is used to showcase Playframework
+    while learning basic Spanish phrases. This application showcases:
+   <ul>
+    <li><a href="http://www.playframework.com">Playframework 2.4</a></li>
+    <li><a href="http://www.webjars.org">WebJars</a></li>
+    <li><a href="http://www.bootstrap.com">Bootstrap</a></li>
+    <li><a href="http://www.slick.typesafe.com">Slick</a></li>
+   </ul>
+   </p>
+  </div>
+
+  <div>
+   <div class="panel panel-default">
+    <div class="panel-heading">Frases</div>
+    <ul class="list-group">
+     @for(c <- cats) {
+      <li class="list-group-item">@c.name</li>
+     }
+     @for(p <- phrases) {
+      <li class="list-group-item">@p.spanish</li>
+     }
+    </ul>
+   </div>
+ </div>
+}
