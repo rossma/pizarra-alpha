@@ -1,7 +1,11 @@
 package daos
 
+import java.sql.Timestamp
+import java.util.Date
 import javax.inject.Inject
+
 import models.Phrase
+import org.joda.time.DateTime
 import play.api.db.slick.DatabaseConfigProvider
 import play.api.db.slick.HasDatabaseConfigProvider
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
@@ -18,8 +22,7 @@ class PhraseDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
   def insert(phrase: Phrase): Future[Unit] = db.run(Phrases += phrase).map { _ => () }
 
- // def insert(phrases: Seq[Phrase]): Future[Unit] = db.run(this.Phrases ++= phrases).map(_ => ())
-  
+  def insert(phrases: Seq[Phrase]): Future[Unit] = db.run(this.Phrases ++= phrases).map(_ => ())
 
 
   // val insertQuery = phrases returning phrases.map(_.id) into ((phrase, id) => phrase.copy(id = id))
@@ -62,12 +65,17 @@ class PhraseDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
   // }
 
   private class PhrasesTable(tag: Tag) extends Table[Phrase](tag, "PHRASE") {
+    //implicit val dateColumnType = MappedColumnType.base[Date, Long](d => d.getTime, d => new Date(d))
+    implicit def dateTime = MappedColumnType.base[DateTime, Timestamp] (
+       dt => new Timestamp(dt.getMillis), ts => new DateTime(ts.getTime)
+    )
 
     def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
     def spanish = column[String]("SPANISH")
     def english = column[String]("ENGLISH")
+    def createdAt = column[DateTime]("CREATED_AT")
 
-    def * = (id.?, spanish, english) <> (Phrase.tupled, Phrase.unapply _)
+    def * = (id.?, spanish, english, createdAt) <> (Phrase.tupled, Phrase.unapply _)
   }
 
 

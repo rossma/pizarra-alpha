@@ -19,29 +19,29 @@ import scala.util.Try
 @Singleton
 class DbInitialiser @Inject() (phraseDao: PhraseDao) {
 
-  // def insert(): Unit = {
-  //   import play.api.libs.concurrent.Execution.Implicits.defaultContext
+   def insert(): Unit = {
+     import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
-  //   Logger.info("Initialising data in database")
+     Logger.info("Initialising data in database")
 
-  //   val insertInitialDataFuture = for {
-  //     count <- phraseDao.count() if count == 0
-  //     _ <- phraseDao.insert(InitialData.phrases)
-  //   } yield ()
+     val insertInitialDataFuture = for {
+       count <- phraseDao.count() if count == 0
+       _ <- phraseDao.insert(InitialData.phrases)
+     } yield ()
 
-  //   Try(Await.result(insertInitialDataFuture, Duration.Inf))
-  // }
+     Try(Await.result(insertInitialDataFuture, Duration.Inf))
+   }
 
-  // insert()
+   insert()
 }
 
 private[this] object InitialData {
-  private val sdf = new SimpleDateFormat("yyyy-MM-dd")
+//  private val sdf = new SimpleDateFormat("yyyy-MM-dd")
 
-  // def phrases = Seq(
-  //   Phrase(Some(1L), "Good morning", "Buenos días"),
-  //   Phrase(Some(2L), "Good afternoon", "Buenas tardes"),
-  //   Phrase(Some(3L), "Good evening", "Buenas noches"),
-  //   Phrase(Some(4L), "Hello, my name is John", "Hola, me llamo Juan")
-  //  )
+   def phrases = Seq(
+     Phrase(Some(1L), "Buenos días", "Good morning"),
+     Phrase(Some(2L), "Buenas tardes", "Good afternoon"),
+     Phrase(Some(3L), "Buenas noches", "Good evening"),
+     Phrase(Some(4L), "Hola, me llamo Juan", "Hello, my name is John")
+    )
 }
