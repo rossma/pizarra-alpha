@@ -1,10 +1,11 @@
 @(webJarAssets: WebJarAssets)
 
 @main(webJarAssets) {
+} {
 <h1>Add phrase</h1>
 <form action="/add/phrase" method="POST">
     <input name="spanish" type="text" placeholder="spanish"/>
     <input name="english" type="text" placeholder="english"/>
-    <input type="submit"/>
+    <input type="submit" class="btn"/>
 </form>
 }

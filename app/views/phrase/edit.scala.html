@@ -1,0 +1,29 @@
+@(webJarAssets: WebJarAssets, id: Long, phraseForm: Form[Phrase])(implicit messages: Messages)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(helper.bootstrapInput.f) }
+
+@main(webJarAssets) {
+} {
+<h1>Edit phrase</h1>
+
+
+  @form(action = routes.HomeController.editPhrase(id)) {
+    <fieldset>
+      @inputText(phraseForm("spanish"), '_label -> "Spanish")
+      @inputText(phraseForm("english"), '_label -> "English")
+    </fieldset>
+
+    <div>
+      <input type="submit" value="Save phrase" class="btn primary">
+    </div>
+  }
+
+  @form(routes.HomeController.deletePhrase(id)) {
+    <div>
+      <input type="submit" value="Delete phrase" class="btn danger">
+    </div>
+  }
+
+}

@@ -1,12 +1,34 @@
-@(webJarAssets: WebJarAssets, phrases: Seq[Phrase])
+@(webJarAssets: WebJarAssets, phrases: Seq[Phrase])(implicit flash: play.api.mvc.Flash, messages: Messages)
+
+@scripts = {
+ <script type="text/javascript" src="@routes.JsRouter.javascriptRoutes"></script>
+
+ <script>
+    $(function() {
+      console.log( "ready!" );
+      $('table.phrase-tbl > tbody > tr').click(function() {
+          // row was clicked
+          console.log( "row is clicked!" );
+          window.location.href = jsRoutes.controllers.HomeController.edit($(this).data("id")).url;
+      });
+    });
+  </script>
+}
 
 @*
  * Call the the `main` template with two arguments. The first
  * argument is a `String` with the title of the page, the second
  * argument is an `Html` object containing the body of the page.
  *@
-@main(webJarAssets) {
+@main(webJarAssets)(scripts) {
+  @flash.get("success").map { message =>
+   <div class="alert alert-success">
+     <strong>Done!</strong> @message
+   </div>
+  }
+
   <h1>¡Buenos días!</h1>
+
   <div class="alert alert-info">
    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
    <p>
@@ -14,21 +36,41 @@
     while learning basic Spanish phrases. This application showcases:
    <ul>
     <li><a href="http://www.playframework.com">Playframework 2.4</a></li>
+    <ul>
+     <li><a href="https://www.playframework.com/documentation/2.5.x/ScalaJavascriptRouting">Javascript Routing</a></li>
+     <li><a href="https://www.playframework.com/documentation/2.5.x/ScalaForms">Scala Forms</a></li>
+     <li><a href="https://www.playframework.com/documentation/2.5.x/ScalaCustomFieldConstructors">Custom Field Constructors</a></li>
+     <li><a href="https://www.playframework.com/documentation/2.5.x/ScalaI18N">Messages and internationalization</a></li>
+    </ul>
     <li><a href="http://www.webjars.org">WebJars</a></li>
     <li><a href="http://www.bootstrap.com">Bootstrap</a></li>
+   <li><a href="https://jquery.com/">JQuery</a></li>
     <li><a href="http://www.slick.typesafe.com">Slick</a></li>
    </ul>
    </p>
   </div>
 
+  <h2>@Messages("phrases.list.title", phrases.size)</h2>
   <div>
    <div class="panel panel-default">
     <div class="panel-heading">Frases</div>
-    <ul class="list-group">
-     @for(p <- phrases) {
-      <li class="list-group-item">@p.spanish</li>
-     }
-    </ul>
+     <table class="phrase-tbl table table-striped">
+      <thead>
+       <tr>
+        <th>Spanish</th>
+        <th>English</th>
+       </tr>
+      </thead>
+      <tbody>
+      @for(p <- phrases) {
+       <tr data-id="@p.id">
+        <td>@p.spanish</td>
+        <td>@p.english</td>
+       </tr>
+      }
+      </tbody>
+     </table>
    </div>
  </div>
 }
+

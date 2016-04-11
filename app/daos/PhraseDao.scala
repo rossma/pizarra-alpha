@@ -24,6 +24,15 @@ class PhraseDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
   def insert(phrases: Seq[Phrase]): Future[Unit] = db.run(this.Phrases ++= phrases).map(_ => ())
 
+  def findById(id: Long): Future[Option[Phrase]] = db.run(Phrases.filter(_.id === id).result.headOption)
+
+  def update(id: Long, phrase: Phrase): Future[Unit] = {
+    val phraseToUpdate: Phrase = phrase.copy(Some(id))
+    db.run(Phrases.filter(_.id === id).update(phraseToUpdate)).map(_ => ())
+  }
+
+  def delete(id: Long): Future[Unit] =
+    db.run(Phrases.filter(_.id === id).delete).map(_ => ())
 
   // val insertQuery = phrases returning phrases.map(_.id) into ((phrase, id) => phrase.copy(id = id))
 

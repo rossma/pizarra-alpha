@@ -8,6 +8,13 @@ GET     /                           controllers.HomeController.index
 GET     /add                        controllers.HomeController.add
 POST    /add/phrase                 controllers.HomeController.addPhrase
 
+GET     /edit/:id                   controllers.HomeController.edit(id: Long)
+POST    /edit/phrase/:id            controllers.HomeController.editPhrase(id: Long)
+POST    /delete/phrase/:id          controllers.HomeController.deletePhrase(id:Long)
+
+#Javascript Routes
+GET     /javascriptRoutes           controllers.JsRouter.javascriptRoutes
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
 
