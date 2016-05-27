@@ -34,44 +34,10 @@ class PhraseDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
   def delete(id: Long): Future[Unit] =
     db.run(Phrases.filter(_.id === id).delete).map(_ => ())
 
-  // val insertQuery = phrases returning phrases.map(_.id) into ((phrase, id) => phrase.copy(id = id))
-
-  // def create(name: String, price: String) : Future[Phrase] = {
-  //   val action = insertQuery += Phrase(Some(0L), name, price)
-  //   db.run(action)
-  // }
-
-  // val insertActions = DBIO.seq(
-  //   phrases += (Option(1L), "dd", "dd"),
-
-  //   coffees ++= Seq(
-  //     ("French_Roast", 49, 8.99, 0, 0),
-  //     ("Espresso",    150, 9.99, 0, 0)
-  //   ),
-
-  //   // "sales" and "total" will use the default value 0:
-  //   coffees.map(c => (c.name, c.supID, c.price)) += ("Colombian_Decaf", 101, 8.99)
-  // )
-
-  // Get the statement without having to specify a value to insert:
-  // val sql = coffees.insertStatement
-
-
   def count(): Future[Int] = {
-    // this should be changed to
-    // db.run(computers.length.result)
-    // when https://github.com/slick/slick/issues/1237 is fixed
+    // this should be changed to db.run(Phrases.length.result) when https://github.com/slick/slick/issues/1237 is fixed
     db.run(Phrases.map(_.id).length.result)
   }
-
-  // private class PhrasesTable(tag: Tag) extends Table[Phrase](tag, "PHRASE") {
-
-  //   def id = column[Long]("ID", O.PrimaryKey)
-  //   def spanish = column[String]("SPANISH")
-  //   def english = column[String]("ENGLISH")
-
-  //   def * = (id, spanish, english) <> (Phrase.tupled, Phrase.unapply _)
-  // }
 
   private class PhrasesTable(tag: Tag) extends Table[Phrase](tag, "PHRASE") {
     //implicit val dateColumnType = MappedColumnType.base[Date, Long](d => d.getTime, d => new Date(d))
@@ -86,6 +52,5 @@ class PhraseDao @Inject()(protected val dbConfigProvider: DatabaseConfigProvider
 
     def * = (id.?, spanish, english, createdAt) <> (Phrase.tupled, Phrase.unapply _)
   }
-
 
 }

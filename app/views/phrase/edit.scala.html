@@ -1,11 +1,10 @@
-@(webJarAssets: WebJarAssets, id: Long, phraseForm: Form[Phrase])(implicit messages: Messages)
+@(webJarAssets: WebJarAssets, requireJS: org.webjars.play.RequireJS, id: Long, phraseForm: Form[Phrase])(implicit messages: Messages)
 
 @import helper._
 
 @implicitFieldConstructor = @{ FieldConstructor(helper.bootstrapInput.f) }
 
-@main(webJarAssets) {
-} {
+@main(webJarAssets, requireJS) {
 <h1>Edit phrase</h1>
 
 

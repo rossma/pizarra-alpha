@@ -5,6 +5,7 @@ import javax.inject._
 import daos.PhraseDao
 import models.Phrase
 import org.joda.time.DateTime
+import org.webjars.play.RequireJS
 import play.api.data.Form
 import play.api.data.Forms.{ignored, jodaDate, longNumber, mapping, nonEmptyText, optional}
 import play.api.i18n.{I18nSupport, MessagesApi}
@@ -19,7 +20,7 @@ import scala.concurrent.Future
  * application's home page.
  */
 @Singleton
-class HomeController @Inject() (val messagesApi: MessagesApi, webJarAssets: WebJarAssets, phraseDao: PhraseDao) extends Controller with I18nSupport {
+class HomeController @Inject() (val messagesApi: MessagesApi, webJarAssets: WebJarAssets, requireJS: RequireJS, phraseDao: PhraseDao) extends Controller with I18nSupport {
 
   val Home = Redirect(routes.HomeController.index)
 
@@ -30,7 +31,7 @@ class HomeController @Inject() (val messagesApi: MessagesApi, webJarAssets: WebJ
    * a path of `/`.
    */
   def index = Action.async { implicit request =>
-    phraseDao.all().map { case (phrases) => Ok(views.html.index(webJarAssets, phrases)) }
+    phraseDao.all().map { case (phrases) => Ok(views.html.index(webJarAssets, requireJS, phrases)) }
   }
 
   /** Describe the phrase form (used in both edit and create screens).*/
@@ -42,7 +43,7 @@ class HomeController @Inject() (val messagesApi: MessagesApi, webJarAssets: WebJ
       "createdAt" -> ignored[DateTime](DateTime.now()))(Phrase.apply)(Phrase.unapply))
 
   def add = Action {
-    Ok(views.html.phrase.add(webJarAssets))
+    Ok(views.html.phrase.add(webJarAssets, requireJS))
   }
 
   def addPhrase = Action.async { implicit request =>
@@ -55,7 +56,7 @@ class HomeController @Inject() (val messagesApi: MessagesApi, webJarAssets: WebJ
 
     phrase.map { case (ph) =>
       ph match {
-        case Some(p) => Ok(html.phrase.edit(webJarAssets, id, phraseForm.fill(p)))
+        case Some(p) => Ok(html.phrase.edit(webJarAssets, requireJS, id, phraseForm.fill(p)))
         case None => NotFound
       }
     }
@@ -63,7 +64,7 @@ class HomeController @Inject() (val messagesApi: MessagesApi, webJarAssets: WebJ
 
   def editPhrase(id: Long) = Action.async { implicit request =>
     phraseForm.bindFromRequest.fold(
-      formWithErrors => Future.successful(BadRequest(html.phrase.edit(webJarAssets, id, formWithErrors))),
+      formWithErrors => Future.successful(BadRequest(html.phrase.edit(webJarAssets, requireJS, id, formWithErrors))),
       phrase => {
         for {
           _ <- phraseDao.update(id, phrase)

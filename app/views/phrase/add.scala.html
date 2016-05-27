@@ -1,7 +1,6 @@
-@(webJarAssets: WebJarAssets)
+@(webJarAssets: WebJarAssets, requireJS: org.webjars.play.RequireJS)
 
-@main(webJarAssets) {
-} {
+@main(webJarAssets, requireJS) {
 <h1>Add phrase</h1>
 <form action="/add/phrase" method="POST">
     <input name="spanish" type="text" placeholder="spanish"/>
