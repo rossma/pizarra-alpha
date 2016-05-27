@@ -5,6 +5,7 @@ Spanish Lessons from the whiteboard - Alpha Edition
 
 This application is used to showcase the Play Framework along with these other libraries:
 * [Scala](http://scala-lang.org/)
+* [RequireJS](http://requirejs.org)
 * [WebJars](http://www.webjars.org)
 * [Bootstrap](http://www.bootstrap.com)
 * [Slick](http://www.slick.typesafe.com)
