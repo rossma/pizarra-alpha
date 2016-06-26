@@ -1,3 +1,18 @@
+.heading {
+  overflow: auto;
+  padding-bottom: 10px;
+}
+
+.heading h1 {
+  float: left;
+}
+
+.logo {
+  width: 200px;
+  height: 136px;
+  float: right;
+}
+
 .phrase-tbl tr {
-    cursor: pointer;
+  cursor: pointer;
 }

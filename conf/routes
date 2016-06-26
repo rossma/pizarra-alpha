@@ -10,7 +10,7 @@ POST    /add/phrase                 controllers.HomeController.addPhrase
 
 GET     /edit/:id                   controllers.HomeController.edit(id: Long)
 POST    /edit/phrase/:id            controllers.HomeController.editPhrase(id: Long)
-POST    /delete/phrase/:id          controllers.HomeController.deletePhrase(id:Long)
+POST    /delete/phrase/:id          controllers.HomeController.deletePhrase(id: Long)
 
 #Javascript Routes
 GET     /javascriptRoutes           controllers.JsRouter.javascriptRoutes
